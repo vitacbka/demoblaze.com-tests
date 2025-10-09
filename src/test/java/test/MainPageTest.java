@@ -18,7 +18,7 @@ public class MainPageTest extends BaseTest {
 
     @Test
     @DisplayName("All images should be loaded at main page")
-    void allImagesLoadedAtMainPage() {
+    void allImagesLoadedAtMainPageTest() {
         ImageCheckHelper.assertAllProductImagesAreLoaded();
     }
 }

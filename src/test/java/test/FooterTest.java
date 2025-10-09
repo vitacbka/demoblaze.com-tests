@@ -21,7 +21,7 @@ public class FooterTest extends BaseTest {
 
     @Test
     @DisplayName("Footer should display correct contact info")
-    void shouldDisplayCorrectFooterContent() {
+    void shouldDisplayCorrectFooterContentTest() {
         footer.scrollToFooter();
 
         assertEquals(FooterTestData.ADDRESS, footer.getAddress(),
@@ -34,7 +34,7 @@ public class FooterTest extends BaseTest {
 
     @Test
     @DisplayName("About us info should be displayed")
-    void shouldDisplayAboutUsInfo() {
+    void shouldDisplayAboutUsInfoTest() {
         footer.scrollToFooter();
         assertEquals(FooterTestData.ABOUT_US_INFO, footer.getMainDescription(),
                 "Text description in footer is not as expected");
