@@ -8,14 +8,15 @@ import pages.Footer;
 import pages.MainPage;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("Footer content validation")
+@DisplayName("Footer tests")
 public class FooterTest extends BaseTest {
 
-    Footer footer = new Footer();
+    private Footer footer;
 
     @BeforeEach
     void setUp() {
         MainPage.openMainPage();
+        footer = new Footer();
     }
 
     @Test

@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Selenide.$x;
 public class Header {
 
     private final SelenideElement
-            //Локаторы навигационных элементов
+           // Navigation elements locators
             homeLink = $("a#nava"),
             contactLink = $x("//a[text()='Contact']"),
             aboutUsLink = $x("//a[text()='About us']"),
@@ -17,19 +17,19 @@ public class Header {
             loginLink = $x("//a[text()='Log in']"),
             signUpLink = $x("//a[text()='Sign up']"),
 
-    //Модальные окна
+            //Modal windows locators
             contactModal = $("#exampleModal"),
             aboutUsModal = $("#videoModal"),
             loginModal = $("#logInModal"),
             signUpModal = $("#signInModal"),
 
-    //Заголовки модальных окон
+            //Modal windows title locators
             contactModalTitle = contactModal.$(".modal-title"),
             aboutUsModalTitle = aboutUsModal.$(".modal-title"),
             loginModalTitle = loginModal.$(".modal-title"),
             signUpModalTitle = signUpModal.$(".modal-title"),
 
-    //Видеоролик в About us
+            //Video in about us modal
             aboutUsVideo = aboutUsModal.$("#example-video");
 
     public Header openContactModal() {

@@ -9,5 +9,4 @@ public class LoginModalWindow extends BasePage{
             loginUsernameInput = $("#loginusername") ,
             loginPasswordInput = $("#loginpassword"),
             loginButton = $("button[onclick='logIn()");
-
 }

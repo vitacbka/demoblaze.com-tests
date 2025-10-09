@@ -7,6 +7,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.url;
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("Header tests")
 public class HeaderTest extends BaseTest {
 
     private Header header;
@@ -56,9 +57,7 @@ public class HeaderTest extends BaseTest {
     @Test
     @DisplayName("Clicking 'Home' should reload main page")
     void shouldReturnToHomePage() {
-        // Сначала перейдём в корзину
         header.goToCartPage();
-        // Затем вернёмся домой
         header.goToHomePage();
         assertEquals("https://www.demoblaze.com/index.html", url());
     }

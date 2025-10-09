@@ -6,10 +6,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pages.MainPage;
 
-public class MainPageTest extends BaseTest{
+@DisplayName("Main page tests")
+public class MainPageTest extends BaseTest {
+    private MainPage mainPage;
 
     @BeforeEach
     void setUp() {
+        mainPage = new MainPage();
         MainPage.openMainPage();
     }
 
