@@ -1,4 +1,4 @@
-# 🧪 Demoblaze Test Automation
+# 🧪 Demoblaze Test Automation![img_1.png](img_1.png)
 
 Automated UI tests for [Demoblaze](https://www.demoblaze.com) using **Java + JUnit 5 + Selenide**.
 
