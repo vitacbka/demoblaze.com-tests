@@ -2,7 +2,7 @@ package pages;
 
 import com.codeborne.selenide.SelenideElement;
 
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
@@ -30,7 +30,10 @@ public class Header {
             signUpModalTitle = signUpModal.$(".modal-title"),
 
             //Video in about us modal
-            aboutUsVideo = aboutUsModal.$("#example-video");
+            aboutUsVideo = aboutUsModal.$("#example-video"),
+
+    //Welcome message
+             welcomeMessage = $("#nameofuser");
 
     public Header openContactModal() {
         contactLink.shouldBe(visible).click();
@@ -65,22 +68,26 @@ public class Header {
     }
 
     public String getContactModalTitleText() {
-        return contactModalTitle.shouldBe(visible).text();
+        return contactModalTitle.getText();
     }
 
     public String getAboutUsModalTitleText() {
-        return aboutUsModalTitle.shouldBe(visible).text();
+        return aboutUsModalTitle.getText();
     }
 
     public String getLoginModalTitleText() {
-        return loginModalTitle.shouldBe(visible).text();
+        return loginModalTitle.getText();
     }
 
     public String getSignUpModalTitleText() {
-        return signUpModalTitle.shouldBe(visible).text();
+        return signUpModalTitle.getText();
     }
 
-    public boolean isAboutUsVideoPresent() {
-        return aboutUsVideo.isDisplayed();
+    public SelenideElement aboutUsVideo() {
+        return aboutUsVideo;
+    }
+
+    public SelenideElement getWelcomeMessage() {
+        return welcomeMessage;
     }
 }

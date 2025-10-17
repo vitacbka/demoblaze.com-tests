@@ -6,16 +6,19 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pages.Footer;
 import pages.MainPage;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DisplayName("Footer tests")
 public class FooterTest extends BaseTest {
 
     private Footer footer;
+    private MainPage mainPage;
 
     @BeforeEach
     void setUp() {
-        MainPage.openMainPage();
+        mainPage = new MainPage();
+        mainPage.openMainPage();
         footer = new Footer();
     }
 
@@ -24,19 +27,26 @@ public class FooterTest extends BaseTest {
     void shouldDisplayCorrectFooterContentTest() {
         footer.scrollToFooter();
 
-        assertEquals(FooterTestData.ADDRESS, footer.getAddress(),
-                "Address in footer is not as expected");
-        assertEquals(FooterTestData.PHONE, footer.getPhone(),
-                "Phone in footer is not as expected");
-        assertEquals(FooterTestData.EMAIL, footer.getEmail(),
-                "Email in footer is not as expected");
+        assertAll(
+                () -> assertThat(FooterTestData.ADDRESS)
+                .as("Address in footer is not as expected")
+                .isEqualTo(footer.getAddress()),
+                () -> assertThat(FooterTestData.PHONE)
+                .as("Phone in footer is not as expected")
+                .isEqualTo(footer.getPhone()),
+                () -> assertThat(FooterTestData.EMAIL)
+                .as("Email in footer is not as expected")
+                .isEqualTo(footer.getEmail())
+        );
     }
 
     @Test
     @DisplayName("About us info should be displayed")
     void shouldDisplayAboutUsInfoTest() {
         footer.scrollToFooter();
-        assertEquals(FooterTestData.ABOUT_US_INFO, footer.getMainDescription(),
-                "Text description in footer is not as expected");
+
+        assertThat(FooterTestData.ABOUT_US_INFO)
+                .as("Text description in footer is not as expected")
+                .isEqualTo(footer.getMainDescription());
     }
 }

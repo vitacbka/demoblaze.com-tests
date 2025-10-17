@@ -15,6 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <selenide.version>7.11.1</selenide.version>
         <junit.version>5.10.2</junit.version>
+        <assertj-core.versiom>3.27.3</assertj-core.versiom>
     </properties>
 
     <dependencies>
@@ -28,6 +29,17 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj-core.versiom}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
