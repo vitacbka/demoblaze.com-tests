@@ -8,8 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pages.Header;
 import pages.MainPage;
-import static TestData.LoginAlertTestData.EXPECTED_ERROR_EMPTY_USERNAME_OR_PASSWORD_MESSAGE_MODAL;
-import static TestData.LoginAlertTestData.EXPECTED_ERROR_WRONG_PASSWORD_MESSAGE_MODAL;
+
+import static TestData.LoginAlertTestData.*;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static config.TestConfig.*;
@@ -55,7 +55,7 @@ public class LoginTest extends BaseTest {
     void loginWithInvalidPasswordTest() {
         header.openLoginModal();
 
-        String username = getBaseUrl();
+        String username = getValidUsername();
 
         loginModal
                 .fillUsernameInputField(username)
@@ -119,5 +119,31 @@ public class LoginTest extends BaseTest {
                         .isEqualTo(EXPECTED_ERROR_EMPTY_USERNAME_OR_PASSWORD_MESSAGE_MODAL),
                 () -> header.getWelcomeMessage().shouldNotBe(visible)
         );
+    }
+
+    @Test
+    @DisplayName("User should not be logined in with invalid credentials")
+    void userShouldNotBeLoginedInWithInvalidCredentialsTest() {
+        header.openLoginModal();
+
+        String username = getInvalidUsername();
+        String password = getInvalidPassword();
+
+        loginModal
+                .fillUsernameInputField(username)
+                .fillPasswordInputField(password);
+
+        loginModal.clickLoginButton();
+
+        assertAll(
+                () -> assertThat(alertHelper.isAlertPresent())
+                        .as("Alert is not present")
+                        .isTrue(),
+                () -> assertThat(alertHelper.getAlertTextIfPresent())
+                        .as("Alert message is not as expected")
+                        .isEqualTo(EXPECTED_ERROR_USER_DOES_NOT_EXIST_MESSAGE_MODAL),
+                () -> header.getWelcomeMessage().shouldNotBe(visible)
+        );
+
     }
 }

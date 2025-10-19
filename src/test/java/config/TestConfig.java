@@ -30,4 +30,12 @@ public class TestConfig {
     public static String getValidPassword() {
         return properties.getProperty("valid.password");
     }
+
+    public static String getInvalidPassword() {
+        return properties.getProperty("invalid.password");
+    }
+
+    public static String getInvalidUsername() {
+        return properties.getProperty("invalid.username");
+    }
 }
