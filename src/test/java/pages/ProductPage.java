@@ -5,13 +5,12 @@ import com.codeborne.selenide.SelenideElement;
 import static com.codeborne.selenide.Condition.clickable;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$x;
 
 public class ProductPage {
 
     private final SelenideElement
-        productPageTitle = $("h2.name"),
-        addToCartButton = $("a.btn-success");
+            productPageTitle = $("h2.name"),
+            addToCartButton = $("a.btn-success");
 
 
     public String getItemPageTitle() {

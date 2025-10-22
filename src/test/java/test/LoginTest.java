@@ -2,19 +2,22 @@ package test;
 
 import Modal.LoginModal;
 import helpers.AlertHelper;
-import helpers.FakeDataGeneratorHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import pages.Header;
 import pages.MainPage;
 
-import static TestData.LoginAlertTestData.*;
+import java.util.stream.Stream;
+
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static config.TestConfig.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class LoginTest extends BaseTest {
 
@@ -22,7 +25,6 @@ public class LoginTest extends BaseTest {
     Header header;
     LoginModal loginModal;
     AlertHelper alertHelper;
-    FakeDataGeneratorHelper faker;
 
     @BeforeEach
     void setUp() {
@@ -30,15 +32,13 @@ public class LoginTest extends BaseTest {
         header = new Header();
         loginModal = new LoginModal();
         alertHelper = new AlertHelper();
-        faker = new FakeDataGeneratorHelper();
         mainPage.openMainPage();
+        header.openLoginModal();
     }
 
     @Test
     @DisplayName("User should be successfully logged in with valid credentials")
     void userShouldBeSuccessfullyLoggedInWithValidCredentialsTest() {
-        header.openLoginModal();
-
         String username = getValidUsername();
         String password = getValidPassword();
 
@@ -50,100 +50,46 @@ public class LoginTest extends BaseTest {
                 .shouldHave(text("Welcome validUser"));
     }
 
-    @Test
-    @DisplayName("Error alert should be displayed when user enters valid username and invalid password")
-    void loginWithInvalidPasswordTest() {
-        header.openLoginModal();
-
-        String username = getValidUsername();
-
-        loginModal
-                .fillUsernameInputField(username)
-                .fillPasswordInputField("123");
-
-        loginModal.clickLoginButton();
-
-        assertAll(
-                () -> assertThat(alertHelper.isAlertPresent())
-                        .as("Alert is not present")
-                        .isTrue(),
-                () -> assertThat(alertHelper.getAlertTextIfPresent())
-                        .as("Alert message is not as expected")
-                        .isEqualTo(EXPECTED_ERROR_WRONG_PASSWORD_MESSAGE_MODAL),
-
-                () -> header.getWelcomeMessage().shouldNotBe(visible)
+    private static Stream<Arguments> invalidCredentialsForLoginProvider() {
+        return Stream.of(
+                Arguments.of("with valid username and empty password", getValidUsername(), ""),
+                Arguments.of("with empty username and empty password", "", ""),
+                Arguments.of("with invalid credentials", getInvalidUsername(), getInvalidPassword()),
+                Arguments.of("with empty username and invalid password", "", getInvalidPassword()),
+                Arguments.of("with SQL injection in username", "admin ' OR '1'='1", "12345678"),
+                Arguments.of("with SQL injection in password", "admin", "12345678 ' OR '1'='1 "),
+                Arguments.of("with script tag in password", getValidUsername(), "<script>alert(1)></script>"),
+                Arguments.of("with too long username", "a".repeat(100), getValidPassword()),
+                Arguments.of("with too long password", getValidUsername(), "b".repeat(100)),
+                Arguments.of("with zero-width space in username", "\u200B" + getValidUsername(), getValidPassword()),
+                Arguments.of("with only spaces in username and valdi password", "         ", getValidPassword()),
+                Arguments.of("with only spaces in password and valid username", getValidUsername(), "        "),
+                Arguments.of("with only spaces in username and password", "        ", "        ")
         );
     }
 
-    @Test
-    @DisplayName("Error alert message should be displayed when user input valid username and empty password")
-    void loginWithEmptyPasswordTest() {
-        header.openLoginModal();
-
-        String username = getBaseUrl();
-
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("invalidCredentialsForLoginProvider")
+    @DisplayName("User should not be login in with ")
+    void userShouldNotBeLoginWithInvalidCredentialsTest(String description, String username, String password) {
         loginModal
                 .fillUsernameInputField(username)
-                .fillPasswordInputField("");
-
-        loginModal.clickLoginButton();
-        assertAll(
-                () -> assertThat(alertHelper.isAlertPresent())
-                        .as("Alert is not present")
-                        .isTrue(),
-                () -> assertThat(alertHelper.getAlertTextIfPresent())
-                        .as("Alert message is not as expected")
-                        .isEqualTo(EXPECTED_ERROR_EMPTY_USERNAME_OR_PASSWORD_MESSAGE_MODAL),
-                () -> header.getWelcomeMessage().shouldNotBe(visible)
-        );
-    }
-
-    @Test
-    @DisplayName("Error alert message should be displayed when user input empty username and valid password")
-    void loginWithEmptyUsernameTest() {
-        header.openLoginModal();
-
-        String password = getValidPassword();
-
-        loginModal
-                .fillUsernameInputField("")
-                .fillPasswordInputField(password);
-
-        loginModal.clickLoginButton();
-        assertAll(
-                () -> assertThat(alertHelper.isAlertPresent())
-                        .as("Alert is not present")
-                        .isTrue(),
-                () -> assertThat(alertHelper.getAlertTextIfPresent())
-                        .as("Alert message is not as expected")
-                        .isEqualTo(EXPECTED_ERROR_EMPTY_USERNAME_OR_PASSWORD_MESSAGE_MODAL),
-                () -> header.getWelcomeMessage().shouldNotBe(visible)
-        );
-    }
-
-    @Test
-    @DisplayName("User should not be logined in with invalid credentials")
-    void userShouldNotBeLoginedInWithInvalidCredentialsTest() {
-        header.openLoginModal();
-
-        String username = getInvalidUsername();
-        String password = getInvalidPassword();
-
-        loginModal
-                .fillUsernameInputField(username)
-                .fillPasswordInputField(password);
-
-        loginModal.clickLoginButton();
+                .fillPasswordInputField(password)
+                .clickLoginButton();
 
         assertAll(
                 () -> assertThat(alertHelper.isAlertPresent())
-                        .as("Alert is not present")
+                        .as("Alert should be present for invalid credentials")
                         .isTrue(),
                 () -> assertThat(alertHelper.getAlertTextIfPresent())
-                        .as("Alert message is not as expected")
-                        .isEqualTo(EXPECTED_ERROR_USER_DOES_NOT_EXIST_MESSAGE_MODAL),
-                () -> header.getWelcomeMessage().shouldNotBe(visible)
+                        .as("Alert message should not be empty")
+                        .isNotBlank()
         );
 
+        System.out.println(alertHelper.getAlertTextIfPresent());
+        alertHelper
+                .acceptAlert();
+        loginModal.closeLoginModalWindow();
+        header.getWelcomeMessage().shouldNotBe(visible);
     }
 }

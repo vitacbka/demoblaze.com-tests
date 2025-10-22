@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pages.Footer;
 import pages.MainPage;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -29,14 +30,14 @@ public class FooterTest extends BaseTest {
 
         assertAll(
                 () -> assertThat(FooterTestData.ADDRESS)
-                .as("Address in footer is not as expected")
-                .isEqualTo(footer.getAddress()),
+                        .as("Address in footer is not as expected")
+                        .isEqualTo(footer.getAddress()),
                 () -> assertThat(FooterTestData.PHONE)
-                .as("Phone in footer is not as expected")
-                .isEqualTo(footer.getPhone()),
+                        .as("Phone in footer is not as expected")
+                        .isEqualTo(footer.getPhone()),
                 () -> assertThat(FooterTestData.EMAIL)
-                .as("Email in footer is not as expected")
-                .isEqualTo(footer.getEmail())
+                        .as("Email in footer is not as expected")
+                        .isEqualTo(footer.getEmail())
         );
     }
 

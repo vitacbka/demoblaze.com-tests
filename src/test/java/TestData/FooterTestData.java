@@ -2,7 +2,8 @@ package TestData;
 
 public final class FooterTestData {
 
-    private FooterTestData() {}
+    private FooterTestData() {
+    }
 
     public static final String
             ABOUT_US_INFO = "We believe performance needs to be validated at every stage of the software development" +

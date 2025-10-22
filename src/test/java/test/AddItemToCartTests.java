@@ -1,6 +1,5 @@
 package test;
 
-import TestData.ProductAlertTestData;
 import com.codeborne.selenide.Selenide;
 import helpers.AlertHelper;
 import helpers.LoginHelper;

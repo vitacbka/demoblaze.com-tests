@@ -1,14 +1,11 @@
 package Modal;
 
 import com.codeborne.selenide.SelenideElement;
-import helpers.FakeDataGeneratorHelper;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 public class SignUpModal {
-
-    FakeDataGeneratorHelper faker = new FakeDataGeneratorHelper();
 
     private final SelenideElement
             signUpModal = $("#signInModal"),

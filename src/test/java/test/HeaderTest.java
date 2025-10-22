@@ -1,13 +1,15 @@
 package test;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import pages.Header;
 
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.url;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DisplayName("Header tests")
 public class HeaderTest extends BaseTest {
@@ -47,7 +49,7 @@ public class HeaderTest extends BaseTest {
                         .isEqualTo("imgs/front.jpg"),
 
                 () -> header.aboutUsVideo().shouldBe(visible)
-                );
+        );
     }
 
     @Test

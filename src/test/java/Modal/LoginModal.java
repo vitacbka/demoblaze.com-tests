@@ -2,12 +2,15 @@ package Modal;
 
 import com.codeborne.selenide.SelenideElement;
 
+import java.time.Duration;
+
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 public class LoginModal {
     private final SelenideElement
             loginModal = $("#logInModal"),
+            loginModalCloseButton = loginModal.$("#logInModal button.close"),
             usernameInput = loginModal.$("#loginusername"),
             passwordInput = loginModal.$("#loginpassword"),
             loginButton = loginModal.$("button[onclick='logIn()']");
@@ -34,8 +37,8 @@ public class LoginModal {
         return this;
     }
 
-    public LoginModal loginNegative() {
-        fillUsernameInputField("invalidUser").fillPasswordInputField("invalidPassword");
+    public LoginModal closeLoginModalWindow() {
+        loginModalCloseButton.shouldBe(visible, Duration.ofSeconds(7)).click();
         return this;
     }
 }

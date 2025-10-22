@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pages.MainPage;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("Main page tests")
@@ -37,6 +38,4 @@ public class MainPageTest extends BaseTest {
     void productCardsDisplayedTest() {
         assertTrue(mainPage.isProductCardsVisible(), "Product cards are not displayed");
     }
-    
-    
 }
